@@ -1,0 +1,80 @@
+@import "src/theme/theme-variables";
+@import "~bootstrap/scss/mixins/_breakpoints";
+
+.login-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+  }
+
+  .logo {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .container {
+    width: 700px;
+    height: 400px;
+    background-color: theme-color("white");
+
+    img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      margin: 1rem;
+    }
+
+    input {
+      margin-bottom: 0.8rem;
+      border-radius: 2rem;
+      &:focus {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        outline: 1px solid #7b67d6;
+        background-color: rgb(250, 250, 250);
+      }
+    }
+
+    button {
+      border-radius: 2rem;
+      background-color: #7b67d6;
+      border: none;
+
+      &:focus {
+        outline: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+
+      &:hover {
+        background-color: #4d3c99 !important;
+      }
+    }
+  }
+}
+
+.ng-invalid.ng-touched:not(form) {
+  border-left: 4px solid theme-color("danger");
+}
+
+@include media-breakpoint-down(xs) {
+  .container {
+    width: 100%;
+  }
+}

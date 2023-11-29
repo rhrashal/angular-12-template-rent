@@ -1,0 +1,371 @@
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor mb-0 mt-0">Landlord Setup</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+      <li class="breadcrumb-item active">Landlord Setup</li>
+    </ol>
+  </div>
+
+  <div class="col-md-6 col-4 align-self-center">
+    <div *ngIf="isInsertMode === false; else insertMode">
+      <button class="float-right create-btn" (click)="createButtonClick()"><i class="fa fa-plus"></i> Create</button>
+    </div>
+    <ng-template #insertMode> </ng-template>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Column -->
+  <div class="col-12">
+    <div class="card card-outline-info">
+      <div class="card-header">
+        <h4 class="mb-0 text-white"></h4>
+      </div>
+      <div class="card-body">
+        <div *ngIf="isInsertMode == false; else insertMode2">
+          <div class="table-responsive m-t-40">
+            <div id="myTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table
+                    id="myTable"
+                    class="table table-bordered table-striped dataTable no-footer"
+                    role="grid"
+                    aria-describedby="myTable_info"
+                    datatable
+                    [dtOptions]="dtOptions"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody *ngIf="dataList?.length != 0">
+                      <tr *ngFor="let x of dataList">
+                        <td>{{ x.Id }}</td>
+                        <td>{{ x.Name }}</td>
+                        <td>{{ x.Email }}</td>
+                        <td>
+                          <i class="fa fa-edit mr-1" (click)="editLandlordButtonClick(x)"></i>&nbsp;
+                          <i class="fa fa-info-circle" (click)="showLandlordById(x.Id, landlordDeatailModal)"></i>&nbsp;
+                          <ng-template #landlordDeatailModal let-modal>
+                            <div class="modal-header">
+                              <h3 class="modal-title" id="modal-basic-title">LandLord Detail</h3>
+                              <i class="fas fa-times cross-btn" (click)="modal.dismiss('Cross click')"></i>
+                            </div>
+                            <div class="modal-body">
+                              <div class="d-flex flex-column">
+                                <div class="d-flex">
+                                  <h5 class="mr-2">Name :</h5>
+                                  <div class="font-weight-bold">
+                                    {{ landlord.Name }}
+                                  </div>
+                                </div>
+                                <div class="d-flex">
+                                  <h5 class="mr-2">Email :</h5>
+                                  <div class="font-weight-bold">
+                                    {{ landlord.Email }}
+                                  </div>
+                                </div>
+                                <div>
+                                  <hr />
+                                  <strong class="modal-title mt-1" id="modal-basic-title">Nominee Detail</strong>
+                                  <table class="table table-bordered table-striped dataTable no-footer table-sm">
+                                    <thead>
+                                      <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>AmountPercent</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody *ngIf="landlord.Nominees?.length != 0">
+                                      <tr *ngFor="let x of landlord.Nominees">
+                                        <td>{{ x.Name }}</td>
+                                        <td>{{ x.Phone }}</td>
+                                        <td>{{ x.AmountPercent }}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </ng-template>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="dataList?.length == 0">
+                      <tr>
+                        <td colspan="3" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #insertMode2>
+          <br />
+          <div class="col-md-12">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#home" role="tab" aria-selected="true"
+                  ><span class="hidden-sm-up"><i class="ti-home"></i></span>
+                  <span class="hidden-xs-down">Landlord</span></a
+                >
+              </li>
+            </ul>
+            <div class="tab-content tabcontent-border">
+              <div class="tab-pane active" id="home" role="tabpanel">
+                <div class="tab-pane p-3">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Name</label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Enter Landlord Name"
+                              [(ngModel)]="landlord.Name"
+                              name="Name"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Email </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Enter Email"
+                              [(ngModel)]="landlord.Email"
+                              name="Email"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group row" *ngIf="landlord.ActionType === 'Create'">
+                        <button type="submit" class="custom-btn ml-3 mt-3" (click)="openNew(nomineemodal)">
+                          <i class="fa fa-plus"></i>
+                          Add Nominee
+                        </button>
+                      </div>
+                      <div class="form-group row" *ngIf="landlord.ActionType === 'Update'">
+                        <button type="submit" class="custom-btn ml-3 mt-3" (click)="openNew(nomineeAddUpdatemodal)">
+                          <i class="fa fa-plus"></i>
+                          Add Nominee
+                        </button>
+                      </div>
+
+                      <ng-template #nomineemodal let-modal>
+                        <div class="modal-header">
+                          <h4 class="modal-title" id="modal-basic-title" *ngIf="landlord.ActionType === 'Create'">
+                            Add Nominee
+                          </h4>
+                          <h4 class="modal-title" id="modal-basic-title" *ngIf="landlord.ActionType === 'Update'">
+                            Update Nominee
+                          </h4>
+
+                          <i class="fas fa-times cross-btn" (click)="modal.dismiss('Cross click')"></i>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="mb-2">
+                              <label class="control-label" for="name">Name</label>
+                              <div class="input-group">
+                                <input
+                                  id="Name"
+                                  class="form-control"
+                                  placeholder="Name"
+                                  [(ngModel)]="nominee.Name"
+                                  name="Name"
+                                />
+                              </div>
+                            </div>
+                            <div class="mb-2">
+                              <label class="control-label" for="name">Name</label>
+                              <div class="input-group">
+                                <input
+                                  id="Phone"
+                                  class="form-control"
+                                  placeholder="Phone"
+                                  [(ngModel)]="nominee.Phone"
+                                  name="Phone"
+                                />
+                              </div>
+                            </div>
+                            <div class="mb-2">
+                              <label class="control-label" for="amountpercent">AmountPercent</label>
+                              <div class="input-group">
+                                <input
+                                  id="amountpercent"
+                                  class="form-control"
+                                  placeholder="AmountPercent"
+                                  [(ngModel)]="nominee.AmountPercent"
+                                  name="AmountPercent"
+                                />
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer" *ngIf="landlord.ActionType === 'Create'">
+                          <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+                            Add
+                          </button> -->
+                          <button type="button" class="btn btn-outline-dark" (click)="addNominee()">Add</button>
+                        </div>
+
+                        <div class="modal-footer" *ngIf="landlord.ActionType === 'Update'">
+                          <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+                            Add
+                          </button> -->
+                          <button type="button" class="btn btn-outline-dark" (click)="updateNominee()">Update</button>
+                        </div>
+                      </ng-template>
+
+                      <ng-template #nomineeAddUpdatemodal let-modal>
+                        <div class="modal-header">
+                          <h4 class="modal-title" id="modal-basic-title">Add Nominee</h4>
+
+                          <i class="fas fa-times cross-btn" (click)="modal.dismiss('Cross click')"></i>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="mb-2">
+                              <label for="name">Name</label>
+                              <div class="input-group">
+                                <input
+                                  id="Name"
+                                  class="form-control"
+                                  placeholder="Name"
+                                  [(ngModel)]="nominee.Name"
+                                  name="Name"
+                                />
+                              </div>
+                            </div>
+                            <div class="mb-2">
+                              <label for="name">Name</label>
+                              <div class="input-group">
+                                <input
+                                  id="Phone"
+                                  class="form-control"
+                                  placeholder="Phone"
+                                  [(ngModel)]="nominee.Phone"
+                                  name="Phone"
+                                />
+                              </div>
+                            </div>
+                            <div class="mb-2">
+                              <label for="amountpercent">AmountPercent</label>
+                              <div class="input-group">
+                                <input
+                                  id="amountpercent"
+                                  class="form-control"
+                                  placeholder="AmountPercent"
+                                  [(ngModel)]="nominee.AmountPercent"
+                                  name="AmountPercent"
+                                />
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+                            Add
+                          </button> -->
+                          <button type="button" class="btn btn-outline-dark" (click)="addNominee()">Add</button>
+                        </div>
+                      </ng-template>
+
+                      <hr />
+
+                      <!-- <pre>{{ this.landlord.Nominees | json }}</pre> -->
+                      <table
+                        class="table table-bordered table-striped dataTable no-footer"
+                        *ngIf="landlord.Nominees?.length != 0"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>AmountPercent</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody *ngIf="landlord.Nominees?.length != 0">
+                          <tr *ngFor="let x of landlord.Nominees">
+                            <td>{{ x.Name }}</td>
+                            <td>{{ x.Phone }}</td>
+                            <td>{{ x.AmountPercent }}</td>
+
+                            <td *ngIf="landlord.ActionType === 'Create'">
+                              <i class="fas fa-times cross-btn" (click)="removeNominee()"></i>
+                            </td>
+                            <td *ngIf="this.landlord.ActionType === 'Update'">
+                              <i class="fa fa-edit edit-btn" (click)="openNomineeEdit(x, nomineemodal)"></i>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- kkk -->
+
+          <div class="col-md-12">
+            <!-- Begin Button -->
+            <hr />
+            <div class="form-actions">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="offset-sm-3 col-md-9">
+                      <button type="submit" class="btn btn-success success-btn" (click)="saveButtonClick()">
+                        <i class="fas fa-save"></i>
+                        {{ actionText }}
+                      </button>
+
+                      <button type="button" class="btn btn-inverse cancle-btn" (click)="cancleButtonClick()">
+                        <i class="fas fa-undo"> </i>
+                        Back
+                      </button>
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              </div>
+            </div>
+
+            <!-- End Button -->
+          </div>
+        </ng-template>
+      </div>
+      <!--   end card body -->
+    </div>
+  </div>
+  <!-- Column -->
+</div>
+<!-- Row -->

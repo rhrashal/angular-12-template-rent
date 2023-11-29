@@ -1,0 +1,1442 @@
+<!-- <div class="container-fluid">
+  <div class="jumbotron text-center">
+    <h1>
+      <img class="logo" src="assets/ngx-rocket-logo.png" alt="angular logo" />
+      <span translate>Hello world !</span>
+    </h1>
+    <app-loader [isLoading]="isLoading"></app-loader>
+    <q [hidden]="isLoading">{{ quote }}</q>
+  </div>
+</div> -->
+
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor mb-0 mt-0">Branch Setup</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+      <li class="breadcrumb-item active">Branch Setup</li>
+    </ol>
+  </div>
+
+  <div class="col-md-6 col-4 align-self-center">
+    <div *ngIf="isInsertMode === false; else insertMode">
+      <button class="float-right create-btn" (click)="createButtonClick()"><i class="fa fa-plus"></i> Create</button>
+    </div>
+    <ng-template #insertMode> </ng-template>
+  </div>
+
+  <!-- <div class="col-md-6 col-4 align-self-center">
+      <button class="right-side-toggle waves-effect waves-light btn-info btn-circle btn-sm float-right ml-2"><i
+          class="ti-settings text-white"></i></button>
+      <button class="btn float-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i>
+        Create</button>
+      <div class="dropdown float-right mr-2 hidden-sm-down">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false"> January 2019 </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> <a class="dropdown-item" href="#">February
+            2019</a> <a class="dropdown-item" href="#">March 2019</a> <a class="dropdown-item" href="#">April 2019</a>
+        </div>
+      </div>
+    </div> -->
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<!-- Row -->
+<div class="row">
+  <!-- Column -->
+  <div class="col-12">
+    <div class="card card-outline-info">
+      <div class="card-header">
+        <h4 class="mb-0 text-white"></h4>
+      </div>
+      <div class="card-body">
+        <div *ngIf="isInsertMode == false; else insertMode2">
+          <div class="table-responsive m-t-40">
+            <div id="myTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table
+                    id="myTable"
+                    class="table table-bordered table-striped dataTable no-footer"
+                    role="grid"
+                    aria-describedby="myTable_info"
+                    datatable
+                    [dtOptions]="dtOptions"
+                  >
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <!-- <th>Address</th> -->
+                        <th>Division</th>
+                        <th>Category</th>
+                        <th>Opening Date</th>
+                        <th>BBLicenseNo</th>
+                        <th>BBLicenseIssuDate</th>
+                        <!-- <th>CreateBy</th> -->
+                        <th>CreateDate</th>
+                        <th>Action</th>
+                        <!-- <th>UpdateBy</th>
+                        <th>UpdateDate</th> -->
+                        <!-- <th>RecordFilter</th> -->
+                        <!-- <th>RecordFilter</th> -->
+                      </tr>
+                    </thead>
+                    <!-- <tbody>
+                      <tr *ngFor="let x of branchData"></tr>
+                    </tbody> -->
+                    <tbody *ngIf="dataList?.length != 0">
+                      <tr *ngFor="let x of dataList">
+                        <td>{{ x.Id }}</td>
+                        <td>{{ x.Name }}</td>
+                        <!-- <td>{{ x.Address }}</td> -->
+                        <td>{{ x.Division }}</td>
+                        <td>{{ x.Category }}</td>
+                        <td>{{ x.OpeningDate | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ x.BBLicenseNo }}</td>
+                        <td>{{ x.BBLicenseIssuDate | date: 'dd/MM/yyyy' }}</td>
+                        <!-- <td>{{ x.CreateBy }}</td> -->
+                        <td>{{ x.CreateDate | date: 'dd/MM/yyyy' }}</td>
+                        <!-- <td>{{ x.UpdateBy }}</td>
+                        <td>{{ x.UpdateDate }}</td> -->
+                        <!-- <td>{{ x.RecordFilter }}</td> -->
+                        <!-- <td>{{ x.RecordCount }}</td> -->
+
+                        <td>
+                          <i class="fa fa-edit edit-btn" (click)="editButtonClick(x)"></i>&nbsp;
+                          <!-- <button class="btn btn-pill btn-warning edit-btn" type="button" >
+                          </button> -->
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="branchData?.length == 0">
+                      <tr>
+                        <td colspan="3" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #insertMode2>
+          <br />
+          <div class="col-md-12">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#home" role="tab" aria-selected="true"
+                  ><span class="hidden-sm-up"><i class="ti-home"></i></span>
+                  <span class="hidden-xs-down">Branch</span></a
+                >
+              </li>
+              <!-- <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#profile" role="tab" aria-selected="false"
+                  ><span class="hidden-sm-up"><i class="ti-user"></i></span>
+                  <span class="hidden-xs-down">Financial</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-selected="false"
+                  ><span class="hidden-sm-up"><i class="ti-email"></i></span>
+                  <span class="hidden-xs-down">Licence</span></a
+                >
+              </li> -->
+            </ul>
+            <div class="tab-content tabcontent-border">
+              <div class="tab-pane active" id="home" role="tabpanel">
+                <div class="tab-pane p-3">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Name</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="branch.Name"
+                              name="Name"
+                              placeholder="Enter Branch Name"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Address </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="branch.Address"
+                              Address="Address"
+                              placeholder="Enter Address"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Division </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="branch.Division"
+                              Division="Division"
+                              placeholder="Enter Division"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <!-- <div class="form-group ">
+                        <label class="control-label"> Category </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="branch.Category"
+                              Category="Category"
+                              placeholder="Enter Category"
+                            />
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Category </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <select
+                              id="category"
+                              name="category"
+                              class="form-control"
+                              [(ngModel)]="branch.Category"
+                              Category="Category"
+                            >
+                              <option value="Urban">Urban</option>
+                              <option value="Rural">Rural</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Opening Date </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="date"
+                              class="form-control"
+                              [(ngModel)]="branch.OpeningDate"
+                              OpeningDate="OpeningDate"
+                              placeholder="Enter Opening Date"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> BB License No </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="branch.BBLicenseNo"
+                              BBLicenseNo="BBLicenseNo"
+                              placeholder="Enter BB License No"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> BB License Issue Date </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <!-- <input matInput [matDatepicker]="picker" />-->
+
+                            <input
+                              type="date"
+                              class="form-control"
+                              [(ngModel)]="branch.BBLicenseIssuDate"
+                              BBLicenseIssuDate="BBLicenseIssuDate"
+                              placeholder="Enter BB License Issue Date"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+                    </div>
+                    <div class="col-md-6">
+                      <h3 class="mt-5"></h3>
+                      <!-- <hr /> -->
+
+                      <!-- Begin Form Group -->
+                      <!-- <div class="form-group ">
+                        <label class="control-label"> Created By </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="branch.CreateBy"
+                              CreateBy="CreateBy"
+                              placeholder="Enter Created By"
+                            />
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <!-- <div class="form-group ">
+                        <label class="control-label"> Created Date </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="date"
+                              class="form-control"
+                              [(ngModel)]="branch.CreateDate"
+                              CreateDate="CreateDate"
+                              placeholder="Enter Create Date"
+                            />
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <!-- <div class="form-group ">
+                        <label class="control-label"> Updated By </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="branch.UpdateBy"
+                              UpdateBy="UpdateBy"
+                              placeholder="Enter Updated By"
+                            />
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <!-- <div class="form-group ">
+                        <label class="control-label"> Update Date </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="date"
+                              class="form-control"
+                              [(ngModel)]="branch.UpdateDate"
+                              UpdateDate="UpdateDate"
+                              placeholder="Enter Update Date"
+                            />
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- End Form Group -->
+                    </div>
+                  </div>
+                  <!-- ENd Row -->
+
+                  <!-- <div class="">
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        Owner  
+                        <div class="checkbox checkbox-primary">
+                          <input id="ChkRegOwner" type="checkbox" />
+                          <label for="ChkRegOwner">
+                            <span *ngIf="model.ChkRegOwner"> Yes </span>
+                            <span *ngIf="!model.ChkRegOwner"> No </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        Partner  
+                        <div class="checkbox checkbox-primary">
+                          <input id="ChkRegPartner" type="checkbox" />
+                          <label for="ChkRegPartner">
+                            <span *ngIf="model.ChkRegPartner"> Yes </span>
+                            <span *ngIf="!model.ChkRegPartner"> No </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        Member  
+                        <div class="checkbox checkbox-primary">
+                          <input id="chkTradeMember" type="checkbox" />
+                          <label for="chkTradeMember">
+                            <span *ngIf="model.chkTradeMember"> Yes </span>
+                            <span *ngIf="!model.chkTradeMember"> No </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        Director  
+                        <div class="checkbox checkbox-primary">
+                          <input id="chkTradeDirector" type="checkbox" />
+                          <label for="chkTradeDirector">
+                            <span *ngIf="model.chkTradeDirector"> Yes </span>
+                            <span *ngIf="!model.chkTradeDirector"> No </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <!-- End Row -->
+
+                  <!-- <div class="">
+                    <div class="col-md-12">
+                      <h3>Regular Contact Info</h3>
+                      <hr />
+                    </div> -->
+
+                  <!-- <div class="col-md-6"> -->
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Name </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Name" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Phone </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Phone" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+                  <!-- </div> -->
+
+                  <!-- <div class="col-md-6"> -->
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Designation </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Designation" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Email </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Email" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+                  <!-- </div>
+                  </div> -->
+                  <!-- END ROW -->
+
+                  <!-- <div class="">
+                    <div class="col-md-12">
+                      <h3>Regular Contact Info</h3>
+                      <hr />
+                    </div>
+                    <div class="col-md-6"> -->
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Name </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Name" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Phone </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Phone" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+                  <!-- </div>
+
+                    <div class="col-md-6"> -->
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Designation </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Designation" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Email </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Email" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+                  <!-- </div>
+                  </div> -->
+                  <!-- END ROW -->
+
+                  <!-- <div class="">
+                    <div class="col-md-12">
+                      <h3>Marketing Contact Info</h3>
+                      <hr />
+                    </div>
+                    <div class="col-md-6"> -->
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Name </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Name" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Phone </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Phone" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+                  <!-- </div> -->
+
+                  <!-- <div class="col-md-6"> -->
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Designation </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Designation" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Email </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Email" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+                  <!-- </div>
+                  </div> -->
+                  <!-- END ROW -->
+
+                  <!-- <div class="">
+                    <div class="col-md-12">
+                      <h3>Financial Contact Info</h3>
+                      <hr />
+                    </div>
+                    <div class="col-md-6"> -->
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Name </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Name" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Phone </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Phone" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+                  <!-- </div>
+
+                    <div class="col-md-6"> -->
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Designation </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Designation" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+
+                  <!-- Begin Form Group -->
+                  <!-- <div class="form-group ">
+                        <label class="control-label"> Email </label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Email" />
+                          </div>
+                        </div>
+                      </div> -->
+                  <!-- End Form Group -->
+                  <!-- </div>
+                  </div> -->
+                  <!-- END ROW -->
+                </div>
+              </div>
+              <div class="tab-pane p-3" id="profile" role="tabpanel">
+                <div class="">
+                  <div class="col-md-12">
+                    <h3>As Negotiated and agreed by the supplier Gross margin on</h3>
+                    <hr />
+                  </div>
+                  <div class="col-md-3">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="gMarginMRP"
+                        name="groupSupplierMargin"
+                        class="custom-control-input"
+                        value="MRP"
+                      />
+                      <label class="custom-control-label" for="gMarginMRP">MRP</label>
+                      <input type="text" class="form-control textSmall" placeholder="" />
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="gMarginTP"
+                        name="groupSupplierMargin"
+                        class="custom-control-input"
+                        value="TP"
+                      />
+                      <label class="custom-control-label" for="gMarginTP">TP</label>
+                      <input type="text" class="form-control textSmall" placeholder="" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="gMarginAVG"
+                        name="groupSupplierMargin"
+                        class="custom-control-input"
+                        value="AVG"
+                      />
+                      <label class="custom-control-label" for="gMarginAVG">AVG</label>
+                      <input type="text" class="form-control textSmall" placeholder="" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="gMarginAP"
+                        name="groupSupplierMargin"
+                        class="custom-control-input"
+                        value="AP"
+                      />
+                      <label class="custom-control-label" for="gMarginAP">AP</label>
+                    </div>
+                  </div>
+                </div>
+                <!-- END ROW -->
+
+                <div class="">
+                  <div class="col-md-12">
+                    <h3>Payment Terms</h3>
+                    <hr />
+                  </div>
+                  <div class="col-md-3">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="asDays"
+                        name="groupPaymentTerms"
+                        class="custom-control-input"
+                        value="asDays"
+                      />
+                      <label class="custom-control-label" for="asDays">After Sales</label>
+                      <input type="text" class="form-control textSmall" placeholder="" />
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="sacDays"
+                        name="groupPaymentTerms"
+                        class="custom-control-input"
+                        value="sacDays"
+                      />
+                      <label class="custom-control-label" for="sacDays">Sales Com</label>
+                      <input type="text" class="form-control textSmall" placeholder="" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="crDays"
+                        name="groupPaymentTerms"
+                        class="custom-control-input"
+                        value="crDays"
+                      />
+                      <label class="custom-control-label" for="crDays">Credit</label>
+                      <input type="text" class="form-control textSmall" placeholder="" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="B2BDays"
+                        name="groupPaymentTerms"
+                        class="custom-control-input"
+                        value="B2BDays"
+                      />
+                      <label class="custom-control-label" for="B2BDays">Advance</label>
+                      <input type="text" class="form-control textSmall" placeholder="" />
+                    </div>
+                  </div>
+                </div>
+                <!-- END ROW -->
+
+                <div class="">
+                  <div class="col-md-12">
+                    <h3>Payment Mode</h3>
+                    <hr />
+                  </div>
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="chkAC"
+                        name="groupPaymentMode"
+                        class="custom-control-input"
+                        value="chkAC"
+                      />
+                      <label class="custom-control-label" for="chkAC">AC Pay CHeck</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="chkCashCheq"
+                        name="groupPaymentMode"
+                        class="custom-control-input"
+                        value="chkCashCheq"
+                      />
+                      <label class="custom-control-label" for="chkCashCheq">Cash Check</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="chkPO"
+                        name="groupPaymentMode"
+                        class="custom-control-input"
+                        value="chkPO"
+                      />
+                      <label class="custom-control-label" for="chkPO">Pay Order</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="chkBEFTN"
+                        name="groupPaymentMode"
+                        class="custom-control-input"
+                        value="chkBEFTN"
+                      />
+                      <label class="custom-control-label" for="chkBEFTN">B.E.F.T.N</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input
+                        type="radio"
+                        id="chkCash"
+                        name="groupPaymentMode"
+                        class="custom-control-input"
+                        value="chkCash"
+                      />
+                      <label class="custom-control-label" for="chkCash">Cash</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-5">
+                    <!-- Begin Form Group -->
+                    <div class="form-group">
+                      <label class="control-label"> Maturity Day </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter Name" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+                </div>
+                <!-- END ROW -->
+
+                <div class="">
+                  <div class="col-md-12">
+                    <h3>Cheque Issue in favour of (Bank Details)</h3>
+                    <hr />
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group">
+                      <label class="control-label"> Bank </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter Bank" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group">
+                      <label class="control-label"> Bank Branch </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter Branch" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group">
+                      <label class="control-label"> Code </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter Code" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group">
+                      <label class="control-label"> Acc Name </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter ACCName" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group">
+                      <label class="control-label"> Acc No </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter No" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group">
+                      <label class="control-label"> Acc Number </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter No" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group">
+                      <label class="control-label"> Acc Type </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter No" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group">
+                      <label class="control-label"> Acc Merchant Number </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter No" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+
+                  <hr />
+                </div>
+                <!-- END ROW -->
+
+                <div class="">
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group row">
+                      <label class="control-label"> De active </label>
+                      <div class="col-sm-9">
+                        <div class="checkbox checkbox-primary">
+                          <input id="Fired" type="checkbox" />
+                          <label for="Fired">
+                            <!-- <span *ngIf="model.Fired"> Yes </span>
+                            <span *ngIf="!model.Fired"> No </span> -->
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Begin Form Group -->
+                    <div class="form-group row">
+                      <label class="control-label"> De active Date </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="" disabled />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Form Group -->
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane p-3" id="messages" role="tabpanel">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3>Required Document</h3>
+                    <hr />
+                  </div>
+
+                  <!-- BEGIN COL -->
+
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <!-- Begin Form Group -->
+                        <div class="form-group row">
+                          <label class="col-sm-5 control-label"> Trade Licence </label>
+                          <div class="col-sm-7">
+                            <div class="checkbox checkbox-primary">
+                              <input id="chkTradeLicence" type="checkbox" />
+                              <label for="chkTradeLicence">
+                                <!-- <span *ngIf="model.chkTradeLicence"> Yes </span>
+                                <span *ngIf="!model.chkTradeLicence"> No </span> -->
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End Form Group -->
+                      </div>
+
+                      <div class="col-md-9">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <!-- Begin Form Group -->
+                            <div class="form-group row">
+                              <label class="control-label"> </label>
+                              <div class="col-sm-9">
+                                <div class="input-group">
+                                  <input type="text" class="form-control" placeholder="Enter Trade no" />
+                                </div>
+                              </div>
+                            </div>
+                            <!-- End Form Group -->
+                          </div>
+                          <div class="col-md-9">
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                              </div>
+                              <div class="custom-file">
+                                <input
+                                  type="file"
+                                  class="custom-file-input"
+                                  id="inputGroupFile01"
+                                  (change)="fileChange($event)"
+                                  aria-describedby="inputGroupFileAddon01"
+                                />
+                                <label class="custom-file-label form-control" for="inputGroupFile01">{{
+                                  'TradeLicence'
+                                }}</label>
+                              </div>
+                              <div class="input-group-append">
+                                <button
+                                  type="button"
+                                  class="btn btn-primary"
+                                  (click)="downloadButtonClick('inputGroupFile01')"
+                                >
+                                  <i class="fas fa-download"> </i>
+                                  Download
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- END COL /ROW -->
+
+                  <!-- BEGIN COL -->
+
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <!-- Begin Form Group -->
+                        <div class="form-group row">
+                          <label class="col-sm-5 control-label"> BSTI Document </label>
+                          <div class="col-sm-7">
+                            <div class="checkbox checkbox-primary">
+                              <input id="chkBSTIdocument" type="checkbox" />
+                              <label for="chkBSTIdocument">
+                                <!-- <span *ngIf="model.chkBSTIdocument"> Yes </span>
+                                <span *ngIf="!model.chkBSTIdocument"> No </span> -->
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End Form Group -->
+                      </div>
+
+                      <div class="col-md-9">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <!-- Begin Form Group -->
+                            <div class="form-group row">
+                              <label class="control-label"> </label>
+                              <div class="col-sm-9">
+                                <div class="input-group">
+                                  <input type="text" class="form-control" placeholder="Enter BSTI no" />
+                                </div>
+                              </div>
+                            </div>
+                            <!-- End Form Group -->
+                          </div>
+                          <div class="col-md-9">
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                              </div>
+                              <div class="custom-file">
+                                <input
+                                  type="file"
+                                  class="custom-file-input"
+                                  id="inputGroupFile02"
+                                  (change)="fileChange($event)"
+                                  aria-describedby="inputGroupFileAddon01"
+                                />
+                                <label class="custom-file-label form-control" for="inputGroupFile02">{{
+                                  'BSTIdocument'
+                                }}</label>
+                              </div>
+                              <div class="input-group-append">
+                                <button
+                                  type="button"
+                                  class="btn btn-primary"
+                                  (click)="downloadButtonClick('inputGroupFile02')"
+                                >
+                                  <i class="fas fa-download"> </i>
+                                  Download
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- END COL /ROW -->
+
+                  <!-- BEGIN COL -->
+
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <!-- Begin Form Group -->
+                        <div class="form-group row">
+                          <label class="col-sm-5 control-label"> VAT Certificate </label>
+                          <div class="col-sm-7">
+                            <div class="checkbox checkbox-primary">
+                              <input id="chkVATCertificate" type="checkbox" />
+                              <label for="chkVATCertificate">
+                                <!-- <span *ngIf="model.chkVATCertificate"> Yes </span>
+                                <span *ngIf="!model.chkVATCertificate"> No </span> -->
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End Form Group -->
+                      </div>
+
+                      <div class="col-md-9">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <!-- Begin Form Group -->
+                            <div class="form-group row">
+                              <label class="control-label"> </label>
+                              <div class="col-sm-9">
+                                <div class="input-group">
+                                  <input type="text" class="form-control" placeholder="Enter VAT no" />
+                                </div>
+                              </div>
+                            </div>
+                            <!-- End Form Group -->
+                          </div>
+                          <div class="col-md-9">
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                              </div>
+                              <div class="custom-file">
+                                <input
+                                  type="file"
+                                  class="custom-file-input"
+                                  id="inputGroupFile03"
+                                  (change)="fileChange($event)"
+                                  aria-describedby="inputGroupFileAddon03"
+                                />
+                                <label class="custom-file-label form-control" for="inputGroupFile03">{{
+                                  'VATCertificate'
+                                }}</label>
+                              </div>
+                              <div class="input-group-append">
+                                <button
+                                  type="button"
+                                  class="btn btn-primary"
+                                  (click)="downloadButtonClick('inputGroupFile03')"
+                                >
+                                  <i class="fas fa-download"> </i>
+                                  Download
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- END COL /ROW -->
+
+                  <!-- BEGIN COL -->
+
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <!-- Begin Form Group -->
+                        <div class="form-group row">
+                          <label class="col-sm-5 control-label"> TIN Certificate </label>
+                          <div class="col-sm-7">
+                            <div class="checkbox checkbox-primary">
+                              <input id="chkTINCertificate" type="checkbox" />
+                              <label for="chkTINCertificate">
+                                <!-- <span *ngIf="model.chkTINCertificate"> Yes </span>
+                                <span *ngIf="!model.chkTINCertificate"> No </span> -->
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End Form Group -->
+                      </div>
+
+                      <div class="col-md-9">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <!-- Begin Form Group -->
+                            <div class="form-group row">
+                              <label class="control-label"> </label>
+                              <div class="col-sm-9">
+                                <div class="input-group">
+                                  <input type="text" class="form-control" placeholder="Enter TIN no" />
+                                </div>
+                              </div>
+                            </div>
+                            <!-- End Form Group -->
+                          </div>
+                          <div class="col-md-9">
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                              </div>
+                              <div class="custom-file">
+                                <input
+                                  type="file"
+                                  class="custom-file-input"
+                                  id="inputGroupFile04"
+                                  (change)="fileChange($event)"
+                                  aria-describedby="inputGroupFileAddon02"
+                                />
+                                <label class="custom-file-label form-control" for="inputGroupFile04">{{
+                                  'TINCertificate'
+                                }}</label>
+                              </div>
+                              <div class="input-group-append">
+                                <button
+                                  type="button"
+                                  class="btn btn-primary"
+                                  (click)="downloadButtonClick('inputGroupFile04')"
+                                >
+                                  <i class="fas fa-download"> </i>
+                                  Download
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- END COL /ROW -->
+
+                  <!-- BEGIN COL -->
+
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <!-- Begin Form Group -->
+                        <div class="form-group row">
+                          <label class="col-sm-5 control-label"> Other Doc </label>
+                          <div class="col-sm-7">
+                            <div class="checkbox checkbox-primary">
+                              <input id="chkOtherDocument" type="checkbox" />
+                              <label for="chkOtherDocument">
+                                <!-- <span *ngIf="model.chkOtherDocument"> Yes </span>
+                                <span *ngIf="!model.chkOtherDocument"> No </span> -->
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End Form Group -->
+                      </div>
+
+                      <div class="col-md-9">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <!-- Begin Form Group -->
+                            <div class="form-group row">
+                              <label class="control-label"> </label>
+                              <div class="col-sm-9">
+                                <div class="input-group"></div>
+                              </div>
+                            </div>
+                            <!-- End Form Group -->
+                          </div>
+                          <div class="col-md-9">
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                              </div>
+                              <div class="custom-file">
+                                <input
+                                  type="file"
+                                  class="custom-file-input"
+                                  id="inputGroupFile05"
+                                  (change)="fileChange($event)"
+                                  aria-describedby="inputGroupFileAddon01"
+                                />
+                                <label class="custom-file-label form-control" for="inputGroupFile05">{{
+                                  'OtherDocument'
+                                }}</label>
+                              </div>
+                              <div class="input-group-append">
+                                <button
+                                  type="button"
+                                  class="btn btn-primary"
+                                  (click)="downloadButtonClick('inputGroupFile05')"
+                                >
+                                  <i class="fas fa-download"> </i>
+                                  Download
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- END COL /ROW -->
+
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h3>Supplier Type</h3>
+                        <hr />
+                      </div>
+                      <div class="col-md-2">
+                        <div class="custom-control custom-radio">
+                          <input
+                            type="radio"
+                            id="chkTypeLocal"
+                            name="groupSupplierType"
+                            class="custom-control-input"
+                            value="chkTypeLocal"
+                          />
+                          <label class="custom-control-label" for="chkTypeLocal">Local</label>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="custom-control custom-radio">
+                          <input
+                            type="radio"
+                            id="chkTypeForeign"
+                            name="groupSupplierType"
+                            class="custom-control-input"
+                            value="chkTypeForeign"
+                          />
+                          <label class="custom-control-label" for="chkTypeForeign">Forigen</label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="custom-control custom-radio">
+                          <input
+                            type="radio"
+                            id="chkTypeOther"
+                            name="groupSupplierType"
+                            class="custom-control-input"
+                            value="chkTypeOther"
+                          />
+                          <label class="custom-control-label" for="chkTypeOther">Pay Order</label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- END ROW -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <!-- Begin Button -->
+            <hr />
+            <div class="form-actions">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="offset-sm-3 col-md-9">
+                      <button type="submit" class="btn btn-success success-btn" (click)="saveButtonClick()">
+                        <i class="fas fa-save"></i>
+                        {{ actionText }}
+                      </button>
+
+                      <button type="button" class="btn btn-inverse cancle-btn" (click)="cancleButtonClick()">
+                        <i class="fas fa-undo"> </i>
+                        Back
+                      </button>
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              </div>
+            </div>
+
+            <!-- End Button -->
+          </div>
+        </ng-template>
+      </div>
+      <!--   end card body -->
+    </div>
+  </div>
+  <!-- Column -->
+</div>
+<!-- Row -->

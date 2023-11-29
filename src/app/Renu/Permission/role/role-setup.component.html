@@ -1,0 +1,170 @@
+
+<!-- ============================================================== -->
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor mb-0 mt-0">Branch Setup</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+      <li class="breadcrumb-item active">Branch Setup</li>
+    </ol>
+  </div>
+
+  <div class="col-md-6 col-4 align-self-center">
+    <div *ngIf="isInsertMode === false; else insertMode">
+      <button class="float-right create-btn" (click)="createButtonClick()"><i class="fa fa-plus"></i> Create</button>
+    </div>
+    <ng-template #insertMode> </ng-template>
+  </div>
+
+ 
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<!-- Row -->
+<div class="row">
+  <!-- Column -->
+  <div class="col-12">
+    <div class="card card-outline-info">
+      <div class="card-header">
+        <h4 class="mb-0 text-white"></h4>
+      </div>
+      <div class="card-body">
+        <div *ngIf="isInsertMode == false; else insertMode2">
+          <div class="table-responsive m-t-40">
+            <div id="myTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table
+                    id="myTable"
+                    class="table table-bordered table-striped dataTable no-footer"
+                    role="grid"
+                    aria-describedby="myTable_info"
+                    datatable
+                    [dtOptions]="dtOptions"
+                  >
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        
+                        <th>CreateBy</th>
+                        <th>CreateDate</th>
+                        <th>Action</th>
+                       
+                      </tr>
+                    </thead>
+                   
+                    <tbody *ngIf="dataList?.length != 0">
+                      <tr *ngFor="let x of dataList">
+                        <td>{{ x.RoleId }}</td>
+                        <td>{{ x.Name }}</td>
+                       
+                        <td>{{ x.CreateBy }}</td>
+                        <td>{{ x.CreateDate | date: 'dd/MM/yyyy' }}</td>
+                        
+
+                        <td>
+                          <i class="fa fa-edit edit-btn" (click)="editButtonClick(x)"></i>&nbsp;
+                          <!-- <button class="btn btn-pill btn-warning edit-btn" type="button" >
+                          </button> -->
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="roleData?.length == 0">
+                      <tr>
+                        <td colspan="3" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #insertMode2>
+          <br />
+          <div class="col-md-12">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#home" role="tab" aria-selected="true"
+                  ><span class="hidden-sm-up"><i class="ti-home"></i></span>
+                  <span class="hidden-xs-down">General</span></a
+                >
+              </li>
+             
+            </ul>
+            <div class="tab-content tabcontent-border">
+              <div class="tab-pane active" id="home" role="tabpanel">
+                <div class="tab-pane p-3">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <h3>Role</h3>
+                      <hr />
+                      <!-- Begin Form Group -->
+                      <div class="form-group row">
+                        <label class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="Role.Name"
+                              name="Name"
+                              placeholder="Enter Role Name"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      
+                  </div>
+                  
+                </div>
+              </div>
+             
+             
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <!-- Begin Button -->
+            <hr />
+            <div class="form-actions">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="offset-sm-3 col-md-9">
+                      <button type="submit" class="btn btn-success success-btn" (click)="saveButtonClick()">
+                        <i class="fas fa-save"></i>
+                        {{ actionText }}
+                      </button>
+
+                      <button type="button" class="btn btn-inverse cancle-btn" (click)="cancleButtonClick()">
+                        <i class="fas fa-undo"> </i>
+                        Back
+                      </button>
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              </div>
+            </div>
+
+            <!-- End Button -->
+          </div>
+          </div>
+        </ng-template>
+
+
+      </div>
+      <!--   end card body -->
+    </div>
+  </div>
+  <!-- Column -->
+</div>
+<!-- Row -->

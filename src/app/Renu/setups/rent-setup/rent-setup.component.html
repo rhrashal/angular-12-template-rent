@@ -1,0 +1,742 @@
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor mb-0 mt-0">Rent Setup</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+      <li class="breadcrumb-item active">Rent Setup</li>
+    </ol>
+  </div>
+
+  <div class="col-md-6 col-4 align-self-center">
+    <div *ngIf="isInsertMode === false; else insertMode">
+      <button class="float-right create-btn" (click)="createButtonClick()"><i class="fa fa-plus"></i> Create</button>
+    </div>
+    <ng-template #insertMode> </ng-template>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Column -->
+  <div class="col-12">
+    <div class="card card-outline-info">
+      <div class="card-header">
+        <h4 class="mb-0 text-white"></h4>
+      </div>
+      <div class="card-body">
+        <div *ngIf="isInsertMode == false; else insertMode2">
+          <div class="table-responsive m-t-40">
+            <div id="myTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table
+                    id="myTable"
+                    class="table table-bordered table-striped dataTable no-footer"
+                    role="grid"
+                    aria-describedby="myTable_info"
+                    datatable
+                    [dtOptions]="dtOptions"
+                  >
+                    <thead>
+                      <tr>
+                        <!-- <th>Id</th> -->
+                        <th>BranchName</th>
+                        <th>LandLordName</th>
+                        <th>FloorSpace</th>
+                        <th>AtmSpace</th>
+                        <th>LeaseAgreExDate</th>
+                        <th>AdvanceMonth</th>
+                        <th>AdvanceAmount</th>
+                        <th>AdvanceAdjustmentMonth</th>
+                        <th>RentEffectiveDate</th>
+                        <th>FloorSFTRent</th>
+                        <th>AtmSFTRent</th>
+                        <th>GenSFTRent</th>
+                        <th>CarParkingRent</th>
+                        <th>ServiceCharge</th>
+                        <th>TaxVat</th>
+                        <th>LessPreYear</th>
+                        <th>ExpairLess</th>
+                        <th>IsHold</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody *ngIf="dataList?.length != 0">
+                      <tr *ngFor="let x of dataList">
+                        <!-- <td>{{ x.Id }}</td> -->
+                        <td>{{ x.BranchName }}</td>
+                        <td>{{ x.LandLordName }}</td>
+                        <td>{{ x.FloorSpace }}</td>
+                        <td>{{ x.AtmSpace }}</td>
+                        <td>{{ x.LeaseAgreExDate | date: 'dd/MM/YYYY' }}</td>
+                        <td>{{ x.AdvanceMonth }}</td>
+                        <td>{{ x.AdvanceAmount }}</td>
+                        <td>{{ x.AdvanceAdjustmentMonth }}</td>
+                        <td>{{ x.RentEffectiveDate | date: 'dd/MM/YYYY' }}</td>
+                        <td>{{ x.FloorSFTRent }}</td>
+                        <td>{{ x.AtmSFTRent }}</td>
+                        <td>{{ x.GenSFTRent }}</td>
+                        <td>{{ x.CarParkingRent }}</td>
+                        <td>{{ x.ServiceCharge }}</td>
+                        <td>{{ x.TaxVat }}</td>
+                        <td>{{ x.LessPreYear }}</td>
+                        <td>{{ x.ExpairLess | date: 'dd/MM/YYYY' }}</td>
+                        <td>{{ x.IsHold }}</td>
+                        <td><i class="fa fa-edit mr-1"></i>&nbsp; <i class="fa fa-info-circle"></i>&nbsp;</td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="dataList?.length == 0">
+                      <tr>
+                        <td colspan="19" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+                    <ng-template #landlordDeatailModal let-modal>
+                      <div class="modal-header">
+                        <h3 class="modal-title" id="modal-basic-title">Rent Detail</h3>
+                        <i class="fas fa-times cross-btn" (click)="modal.dismiss('Cross click')"></i>
+                      </div>
+                      <div class="modal-body">
+                        <div class="d-flex flex-column">
+                          <div class="d-flex">
+                            <h5 class="mr-2">Name :</h5>
+                            <div class="font-weight-bold"></div>
+                          </div>
+                          <div class="d-flex">
+                            <h5 class="mr-2">Email :</h5>
+                            <div class="font-weight-bold"></div>
+                          </div>
+                          <div>
+                            <hr />
+                            <strong class="modal-title mt-1" id="modal-basic-title">Nominee Detail</strong>
+                            <table class="table table-bordered table-striped dataTable no-footer table-sm">
+                              <thead>
+                                <tr>
+                                  <th>Name</th>
+                                  <th>Phone</th>
+                                  <th>AmountPercent</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer"></div>
+                    </ng-template>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #insertMode2>
+          <br />
+          <div class="col-md-12">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#home" role="tab" aria-selected="true"
+                  ><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Rent</span></a
+                >
+              </li>
+            </ul>
+            <div class="tab-content tabcontent-border">
+              <div class="tab-pane active" id="home" role="tabpanel">
+                <div class="tab-pane p-3">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Branch Name</label>
+                        <div class="col-sm-10">
+                          <!-- <ng-select [items]="branchApiData" bindLabel="Name" bindValue="Id" [(ngModel)]="Id">
+                          </ng-select> -->
+                          <select [(ngModel)]="rent.BranchId" class="form-control" placeholder="Select">
+                            <!-- <option selected="selected">Select</option> -->
+                            <option *ngFor="let item of branchApiData" [value]="item.Id">
+                              {{ item.Name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Landlord Name</label>
+                        <div class="col-sm-10">
+                          <!-- <ng-select [items]="branchApiData" bindLabel="Name" bindValue="Id" [(ngModel)]="Id">
+                          </ng-select> -->
+                          <select [(ngModel)]="rent.LandLordId" class="form-control" placeholder="Select">
+                            <!-- <option selected="selected">Select</option> -->
+                            <option *ngFor="let item of landlordApiData" [value]="item.Id">
+                              {{ item.Name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Floor Space </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Enter Floor Space "
+                              name="Floor Space "
+                              [(ngModel)]="rent.FloorSpace"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Atm Space </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Enter Atm Space "
+                              name="Atm Space "
+                              [(ngModel)]="rent.AtmSpace"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Gen Space </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Enter Gen Space "
+                              name="Floor Space "
+                              [(ngModel)]="rent.GenSpace"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Floor SFT Rent </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Floor SFT Rent "
+                              name="Floor SFT Rent"
+                              [(ngModel)]="rent.FloorSFTRent"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Atm SFT Rent</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Atm SFT Rent "
+                              name="Atm SFT Rent"
+                              [(ngModel)]="rent.AtmSFTRent"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Gen SFT Rent</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Gen SFT Rent "
+                              name="Gen SFT Rent"
+                              [(ngModel)]="rent.GenSFTRent"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Car Parking Rent </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Car Parking Rent "
+                              name="Car Parking Rent"
+                              [(ngModel)]="rent.CarParkingRent"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Service Charge</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Service Charge "
+                              name="Service Charge"
+                              [(ngModel)]="rent.ServiceCharge"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Tax Vat </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Tax Vat "
+                              name="Tax Vat"
+                              [(ngModel)]="rent.TaxVat"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Advance Month </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Advance Month "
+                              name="Advance Month "
+                              [(ngModel)]="rent.AdvanceMonth"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <!-- <div class="form-group">
+                        <label class="control-label"> Advance Amount </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Advance Amount "
+                              name="Advance Amount"
+                            />
+                          </div>
+                        </div>
+                      </div> -->
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Advance Adjustment Month </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Advance Adjustment Month "
+                              name="Advance Adjustment Month "
+                              [(ngModel)]="rent.AdvanceAdjustmentMonth"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+
+                      <ng-template #nomineemodal let-modal>
+                        <div class="modal-header">
+                          <h4 class="modal-title" id="modal-basic-title">Add Nominee</h4>
+                          <h4 class="modal-title" id="modal-basic-title">Update Nominee</h4>
+
+                          <i class="fas fa-times cross-btn" (click)="modal.dismiss('Cross click')"></i>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="mb-2">
+                              <label class="" for="name">Name</label>
+                              <div class="input-group">
+                                <input id="Name" class="form-control" placeholder="Name" name="Name" />
+                              </div>
+                            </div>
+                            <div class="mb-2">
+                              <label for="name">Name</label>
+                              <div class="input-group">
+                                <input id="Phone" class="form-control" placeholder="Phone" name="Phone" />
+                              </div>
+                            </div>
+                            <div class="mb-2">
+                              <label for="amountpercent">AmountPercent</label>
+                              <div class="input-group">
+                                <input
+                                  id="amountpercent"
+                                  class="form-control"
+                                  placeholder="AmountPercent"
+                                  name="AmountPercent"
+                                />
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+                            Add
+                          </button> -->
+                          <button type="button" class="btn btn-outline-dark">Add</button>
+                        </div>
+
+                        <div class="modal-footer">
+                          <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+                            Add
+                          </button> -->
+                          <button type="button" class="btn btn-outline-dark">Update</button>
+                        </div>
+                      </ng-template>
+
+                      <hr />
+
+                      <!-- <pre>{{ this.landlord.Nominees | json }}</pre> -->
+                      <!-- <table class="table table-bordered table-striped dataTable no-footer">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>AmountPercent</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td>
+                              <i class="fas fa-times cross-btn"></i>
+                            </td>
+                            <td>
+                              <i class="fa fa-edit edit-btn"></i>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table> -->
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label"> Mou Date</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="date"
+                              class="form-control"
+                              placeholder="Enter Mou Date "
+                              name="Mou Date "
+                              [(ngModel)]="rent.MouDate"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Meeting No</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Enter Meeting No "
+                              name="Meeting No "
+                              [(ngModel)]="rent.MeetingNo"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Meeting Date </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="date"
+                              class="form-control"
+                              placeholder="Enter Meeting Date "
+                              name="Meeting Date"
+                              [(ngModel)]="rent.MeetingDate"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Lease Agre Ex Date </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="date"
+                              class="form-control"
+                              placeholder="Enter Lease Agre Ex Date "
+                              name="Lease Agre Ex Date"
+                              [(ngModel)]="rent.LeaseAgreExDate"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label"> Rent Effective Date </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="date"
+                              class="form-control"
+                              placeholder="Enter Rent Effective Date "
+                              name="Rent Effective Date "
+                              [(ngModel)]="rent.RentEffectiveDate"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Expair Less</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="date"
+                              class="form-control"
+                              placeholder="Enter Expair Less"
+                              name="Expair Less"
+                              [(ngModel)]="rent.ExpairLess"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Review Percent</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Review Percent"
+                              name="Review Percent"
+                              [(ngModel)]="rent.ReviewPercent"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Review Year </label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Review Year "
+                              name="Review Year "
+                              [(ngModel)]="rent.ReviewYear"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Less PreYear</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Less PreYear "
+                              name="Less PreYear"
+                              [(ngModel)]="rent.LessPreYear"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+                      <!-- Begin Form Group -->
+                      <div class="form-group">
+                        <label class="control-label">Termination Month</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Enter Termination Month "
+                              name="TerminationMonth"
+                              [(ngModel)]="rent.TerminationMonth"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+
+                      <!-- Begin Form Group -->
+                      <div class="form-group row">
+                        <label class="control-label">Is Hold</label>
+                        <div class="col-sm-10">
+                          <div class="input-group">
+                            <input class="hold-checkbox" type="checkbox" name="IsHold" [(ngModel)]="rent.IsHold" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- End Form Group -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #nomineeAddUpdatemodal let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Add Nominee</h4>
+
+              <i class="fas fa-times cross-btn" (click)="modal.dismiss('Cross click')"></i>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-2">
+                  <label for="name">Name</label>
+                  <div class="input-group">
+                    <input id="Name" class="form-control" placeholder="Name" name="Name" />
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <label for="name">Name</label>
+                  <div class="input-group">
+                    <input id="Phone" class="form-control" placeholder="Phone" name="Phone" />
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <label for="amountpercent">AmountPercent</label>
+                  <div class="input-group">
+                    <input id="amountpercent" class="form-control" placeholder="AmountPercent" name="AmountPercent" />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+                            Add
+                          </button> -->
+              <button type="button" class="btn btn-outline-dark">Add</button>
+            </div>
+          </ng-template>
+          <!-- kkk -->
+
+          <div class="col-md-12">
+            <!-- Begin Button -->
+            <hr />
+            <div class="form-actions">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="offset-sm-3 col-md-9">
+                      <button type="submit" class="btn btn-success success-btn" (click)="saveBtnClick()">
+                        <i class="fas fa-save"></i>
+                        {{ actionText }}
+                      </button>
+
+                      <button type="button" class="btn btn-inverse cancle-btn" (click)="backBtnClick()">
+                        <i class="fas fa-undo"> </i>
+                        Back
+                      </button>
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              </div>
+            </div>
+
+            <!-- End Button -->
+          </div>
+        </ng-template>
+      </div>
+      <!--   end card body -->
+    </div>
+  </div>
+  <!-- Column -->
+</div>
+<!-- Row -->

@@ -1,0 +1,68 @@
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor mb-0 mt-0">Login Conference</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+      <li class="breadcrumb-item active">Login Conference</li>
+    </ol>
+  </div>
+</div>
+<div class="row">
+  <!-- Column -->
+  <div class="col-12">
+    <div class="card card-outline-info">
+      <div class="card-header">
+        <h4 class="mb-0 text-white"></h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive m-t-40">
+          <div id="myTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+            <div class="row">
+              <div class="col-sm-12">
+                <table
+                  id="myTable"
+                  class="table table-bordered table-striped dataTable no-footer"
+                  role="grid"
+                  aria-describedby="myTable_info"
+                  datatable
+                  [dtOptions]="dtOptions"
+                >
+                  <thead>
+                    <tr>
+                      <th>User Id</th>
+                      <th>Shop ID</th>
+                      <th>Counter Name</th>
+                      <th>Login Time</th>
+                      <th>Operation</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="dataList?.length !== 0">
+                    <tr *ngFor="let d of dataList">
+                      <td>{{ d.UserId }}</td>
+                      <td>{{ d.ShopID }}</td>
+                      <td>{{ d.CounterName }}</td>
+                      <td>{{ d.LoginTime }}</td>
+                      <td>
+                        <button class="btn btn-pill btn-warning" type="button" (click)="logOffbuttonClick(d.UserId)">
+                          <i class="fa fa-edit"></i>&nbsp;Log Off
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="dataList?.length === 0">
+                    <tr>
+                      <td colspan="3" class="no-data-available">No data!</td>
+                    </tr>
+                  </tbody>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--   end card body -->
+    </div>
+  </div>
+  <!-- Column -->
+</div>

@@ -1,0 +1,112 @@
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor mb-0 mt-0">Rent Process</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+      <li class="breadcrumb-item active">Rent Process</li>
+    </ol>
+  </div>
+
+  <div class="col-md-6 col-4 align-self-center row">
+    <div class="mr-4">
+      <label for="year">Year</label>
+      <select [(ngModel)]="rentProcess.year" class="form-control" placeholder="Select">
+        <option *ngFor="let x of years" [value]="x.id">{{ x.name }}</option>
+        <option></option>
+      </select>
+    </div>
+    <div class="mr-5">
+      <label for="year">Month</label>
+      <select [(ngModel)]="rentProcess.month" class="form-control" placeholder="Select">
+        <!-- <option selected="selected">Select</option> -->
+        <option *ngFor="let x of months" [value]="x.id">{{ x.name }}</option>
+      </select>
+    </div>
+    <div>
+      <button class="float-right create-btn" (click)="retriveRentDataHandler(inputDateData)">
+        <i class="fa fa-paper-plane"></i> Get Rents
+      </button>
+    </div>
+    <ng-template #insertMode> </ng-template>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Column -->
+  <div class="col-12">
+    <div class="card card-outline-info">
+      <div class="card-header">
+        <h4 class="mb-0 text-white"></h4>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="table-responsive m-t-40">
+            <div id="myTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table
+                    id="myTable"
+                    class="table table-bordered table-striped dataTable no-footer"
+                    role="grid"
+                    aria-describedby="myTable_info"
+                  >
+                    <thead>
+                      <tr>
+                        <th>BranchName</th>
+                        <th>LandLordName</th>
+                        <th>LeaseAgreExDate</th>
+                        <th>IsHold</th>
+                      </tr>
+                    </thead>
+
+                    <tbody *ngIf="rentProcessData?.length != 0">
+                      <tr *ngFor="let x of rentProcessData">
+                        <td>{{ x.BranchName }}</td>
+                        <td>{{ x.LandLordName }}</td>
+                        <td>{{ x.LeaseAgreExDate | date: 'dd/MM/YYYY' }}</td>
+                        <td>{{ x.IsHold }}</td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="rentProcessData?.length == 0">
+                      <tr>
+                        <td colspan="3" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- kkk -->
+
+<div class="col-md-12">
+  <!-- Begin Button -->
+  <hr />
+  <div class="form-actions">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="offset-sm-3 col-md-9">
+            <button type="submit" class="btn btn-success success-btn" (click)="processButtonHandler()">
+              <i class="fas fa-cogs"></i>
+
+              Process
+            </button>
+          </div>
+        </div>
+        <br />
+      </div>
+    </div>
+  </div>
+
+  <!-- End Button -->
+</div>

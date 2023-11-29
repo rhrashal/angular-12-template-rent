@@ -1,0 +1,91 @@
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor mb-0 mt-0">Rent Process</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+      <li class="breadcrumb-item active">Rent Process</li>
+    </ol>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Column -->
+  <div class="col-12">
+    <div class="card card-outline-info">
+      <div class="card-header">
+        <h4 class="mb-0 text-white"></h4>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="table-responsive m-t-40">
+            <div id="myTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table
+                    id="myTable"
+                    class="table table-bordered table-striped dataTable no-footer"
+                    role="grid"
+                    aria-describedby="myTable_info"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Rent ID</th>
+                        <th>ProcessNo</th>
+                        <th>Date</th>
+                        <th>AdjustmentAmount</th>
+                        <th>AdjustTotalAmount</th>
+                      </tr>
+                    </thead>
+
+                    <tbody *ngIf="rentProcessData?.length != 0">
+                      <tr *ngFor="let x of rentProcessData">
+                        <td>{{ x.RentId }}</td>
+                        <td>{{ x.ProcessNo }}</td>
+                        <td>{{ x.Date | date: 'dd/MM/YYYY' }}</td>
+                        <td>{{ x.AdjustmentAmount }}</td>
+                        <td>{{ x.AdjustTotalAmount }}</td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="rentProcessData?.length == 0">
+                      <tr>
+                        <td colspan="5" class="no-data-available">No data!</td>
+                      </tr>
+                    </tbody>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- kkk -->
+
+<div class="col-md-12">
+  <!-- Begin Button -->
+  <hr />
+  <div class="form-actions">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="offset-sm-3 col-md-9">
+            <button type="submit" class="btn btn-success success-btn" (click)="approveButtonHandler()">
+              <i class="fas fa-check"></i>
+
+              Approve
+            </button>
+          </div>
+        </div>
+        <br />
+      </div>
+    </div>
+  </div>
+
+  <!-- End Button -->
+</div>
